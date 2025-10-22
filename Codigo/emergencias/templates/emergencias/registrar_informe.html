@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Generar Informe de Emergencia</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Ambulancia Asignada</label>
+            <input type="text" class="form-control" value="{{ ambulancia.placa }}" disabled>
+        </div>
+
+        <input type="hidden" name="ambulancia_id" value="{{ ambulancia.id }}">
+
+        <div class="mb-3">
+            <label class="form-label">Dirección de la emergencia</label>
+            <input type="text" name="direccion_emergencia" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Prioridad</label>
+            <select name="prioridad" class="form-select" required>
+                {% for key, label in prioridades %}
+                    <option value="{{ key }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nombre del paciente (opcional)</label>
+            <input type="text" name="nombre_paciente" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nombre del chofer</label>
+            <input type="text" name="nombre_chofer" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Informe</button>
+        <a href="{% url 'listar_informes_emergencia' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

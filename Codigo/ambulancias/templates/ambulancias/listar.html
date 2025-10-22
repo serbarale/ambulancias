@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Lista de Ambulancias</h2>
+    
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <select name="estado" class="form-select">
+                <option value="">Todos los Estados</option>
+                {% for val, label in estados %}
+                    <option value="{{ val }}" {% if request.GET.estado == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="tipo" class="form-select">
+                <option value="">Todos los Tipos</option>
+                {% for val, label in tipos %}
+                    <option value="{{ val }}" {% if request.GET.tipo == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="placa" class="form-control" placeholder="Buscar por placa" value="{{ request.GET.placa }}">
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <div class="mb-3 text-end">
+        <a href="{% url 'registrar_ambulancia' %}" class="btn btn-success">Registrar Nueva Ambulancia</a>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Placa</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ambulancia in ambulancias %}
+            <tr>
+                <td>{{ ambulancia.placa }}</td>
+                <td>{{ ambulancia.get_tipo_A_display }}</td>
+                <td>{{ ambulancia.get_estado_display }}</td>
+                <td>
+                    <a href="{% url 'editar_ambulancia' ambulancia.id %}" class="btn btn-sm btn-warning">Editar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No se encontraron ambulancias.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

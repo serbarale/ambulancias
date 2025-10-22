@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Registrar Check List - Ambulancia {{ ambulancia.placa }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="nombre_colaborador" class="form-label">Nombre del colaborador</label>
+            <input type="text" name="nombre_colaborador" class="form-control" required>
+        </div>
+
+        <h5 class="mt-4">Insumos</h5>
+        <p>Ingrese la cantidad contabilizada físicamente de cada insumo:</p>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Insumo</th>
+                    <th>Unidad</th>
+                    <th>Stock mínimo</th>
+                    <th>Cantidad contabilizada</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for insumo in insumos %}
+                <tr>
+                    <td>{{ insumo.nombre }}</td>
+                    <td>{{ insumo.unidad }}</td>
+                    <td>{{ insumo.stock_minimo }}</td>
+                    <td>
+                        <input type="number" name="insumo_{{ insumo.id }}" class="form-control" min="0" required>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No hay insumos registrados para este tipo de ambulancia.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success mt-3">Guardar Check List</button>
+        <a href="{% url 'historial_checklist' ambulancia.id %}" class="btn btn-secondary mt-3">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

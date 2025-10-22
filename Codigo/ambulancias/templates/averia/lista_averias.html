@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Averías</h2>
+    <form method="get" class="mb-3 d-flex gap-3">
+        <input type="text" name="placa" class="form-control" placeholder="Buscar por placa">
+        <input type="date" name="fecha" class="form-control">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a href="{% url 'registrar_averia' %}" class="btn btn-success">Registrar Nueva Avería</a>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th>Fecha</th>
+                <th>Colaborador</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for averia in averias %}
+            <tr>
+                <td>{{ averia.ambulancia.placa }}</td>
+                <td>{{ averia.get_tipoF_display }}</td>
+                <td>{{ averia.descripcion_averia }}</td>
+                <td>{{ averia.fecha_reporte }}</td>
+                <td>{{ averia.nombre_colaborador }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No se encontraron averías.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Consentimiento Informado</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Lugar:</label>
+            <input type="text" name="lugar" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Yo:</label>
+            <input type="text" name="nombre_paciente" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Identificado con:</label><br>
+            <input type="radio" name="tipo_documento" value="DNI" checked> DNI
+            <input type="radio" name="tipo_documento" value="Carnet"> Carnet de extranjería
+            <input type="radio" name="tipo_documento" value="Pasaporte"> Pasaporte
+            <input type="text" name="dni_paciente" class="form-control mt-2" placeholder="Número de documento" required>
+        </div>
+        <div class="mb-3">
+            <label>Fui informado por el personal médico:</label>
+            <input type="text" name="personal_medico" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Consentimientos:</label><br>
+            <input type="checkbox" name="acepta_acto_medico"> Doy mi consentimiento para el acto médico<br>
+            <input type="checkbox" name="acepta_traslado"> Doy mi consentimiento para el traslado
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'detalles_informe' informe.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

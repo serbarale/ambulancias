@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Registrar Combustible</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="fecha_combustible" class="form-label">Fecha</label>
+            <input type="date" name="fecha_combustible" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="comb_inicial" class="form-label">Combustible Inicial</label>
+            <input type="number" name="comb_inicial" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="comb_final" class="form-label">Combustible Final</label>
+            <input type="number" name="comb_final" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="km_inicial" class="form-label">Kilometraje Inicial</label>
+            <input type="number" name="km_inicial" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="km_final" class="form-label">Kilometraje Final</label>
+            <input type="number" name="km_final" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="ambulancia" class="form-label">Ambulancia</label>
+            <select name="ambulancia" class="form-control" required>
+                {% for amb in ambulancias %}
+                <option value="{{ amb.id }}">{{ amb.placa }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="nombre_colaborador" class="form-label">Nombre del Colaborador</label>
+            <input type="text" name="nombre_colaborador" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'lista_combustible' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

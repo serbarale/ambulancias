@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Revocación de Consentimiento y/o Traslado</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="nombre_declarante" class="form-label">YO:</label>
+            <input type="text" name="nombre_declarante" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tipo de Persona:</label><br>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="tipo_persona" value="paciente" class="form-check-input" required>
+                <label class="form-check-label">Paciente</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="tipo_persona" value="responsable" class="form-check-input" required>
+                <label class="form-check-label">Responsable Legal</label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Identificado con:</label><br>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="tipo_documento" value="dni" class="form-check-input" required>
+                <label class="form-check-label">DNI</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="tipo_documento" value="ce" class="form-check-input">
+                <label class="form-check-label">Carnet de extranjería</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="tipo_documento" value="pasaporte" class="form-check-input">
+                <label class="form-check-label">Pasaporte</label>
+            </div>
+            <input type="text" name="numero_documento" class="form-control mt-2" placeholder="Número de documento" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Motivo de la revocación</label>
+            <textarea name="motivo_revocacion" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <hr>
+        <div class="mb-3">
+            <label class="form-label">Nombre del Testigo</label>
+            <input type="text" name="nombre_testigo" class="form-control" required>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'detalles_informe' informe.id %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

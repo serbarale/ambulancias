@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Registrar Reporte de Emergencia</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Buscador de Pacientes -->
+        <div class="mb-4">
+            <h5>Pacientes Atendidos</h5>
+            <select id="lista-pacientes" class="form-select mt-2">
+                <option value="">-- Selecciona paciente --</option>
+                {% for paciente in pacientes %}
+                    <option value="{{ paciente.id }}">{{ paciente.nombre }} - {{ paciente.dni }}</option>
+                {% endfor %}
+            </select>
+            <button type="button" class="btn btn-outline-primary mt-2" onclick="agregarPaciente()">Agregar</button>
+            <ul id="pacientes-seleccionados" class="list-group mt-2"></ul>
+        </div>
+
+        <!-- Buscador de Insumos -->
+        <div class="mb-4">
+            <h5>Insumos Utilizados</h5>
+            <select id="lista-insumos" class="form-select mt-2">
+                <option value="">-- Selecciona insumo --</option>
+                {% for insumo in insumos %}
+                    <option value="{{ insumo.id }}">{{ insumo.codigo }} - {{ insumo.nombre }}</option>
+                {% endfor %}
+            </select>
+            <input type="number" id="cantidad-insumo" class="form-control mt-2" placeholder="Cantidad usada">
+            <button type="button" class="btn btn-outline-primary mt-2" onclick="agregarInsumo()">Agregar</button>
+            <ul id="insumos-seleccionados" class="list-group mt-2"></ul>
+        </div>
+
+        <!-- Procedimientos y Pertenencias -->
+        <div class="mb-3">
+            <label for="procedimientos" class="form-label">Procedimientos Efectuados</label>
+            <textarea name="procedimientos" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="pertenencias" class="form-label">Pertenencias del Paciente</label>
+            <textarea name="pertenencias" class="form-control" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Reporte</button>
+        <a href="{% url 'detalles_informe' informe.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    function agregarPaciente() {
+        const select = document.getElementById('lista-pacientes');
+        const id = select.value;
+        const text = select.options[select.selectedIndex].text;
+        if (id) {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = `${text} <input type="hidden" name="pacientes" value="${id}">`;
+            document.getElementById('pacientes-seleccionados').appendChild(li);
+        }
+    }
+
+    function agregarInsumo() {
+        const select = document.getElementById('lista-insumos');
+        const id = select.value;
+        const text = select.options[select.selectedIndex].text;
+        const cantidad = document.getElementById('cantidad-insumo').value;
+        if (id && cantidad > 0) {
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = `${text} (x${cantidad}) <input type="hidden" name="insumos" value="${id}|${cantidad}">`;
+            document.getElementById('insumos-seleccionados').appendChild(li);
+        }
+    }
+</script>
+{% endblock %}

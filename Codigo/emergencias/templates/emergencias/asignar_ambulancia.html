@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Seleccionar Ambulancia para Informe de Emergencia</h2>
+
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-3">
+            <input type="text" name="placa" placeholder="Buscar por placa" class="form-control" value="{{ request.GET.placa }}">
+        </div>
+        <div class="col-md-3">
+            <select name="estado" class="form-select">
+                <option value="">-- Estado --</option>
+                {% for estado in estados %}
+                    <option value="{{ estado.0 }}" {% if request.GET.estado == estado.0 %}selected{% endif %}>{{ estado.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="tipo" class="form-select">
+                <option value="">-- Tipo --</option>
+                {% for tipo in tipos %}
+                    <option value="{{ tipo.0 }}" {% if request.GET.tipo == tipo.0 %}selected{% endif %}>{{ tipo.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-outline-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for amb in ambulancias %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ amb.placa }}</h5>
+                    <p class="card-text">
+                        Estado: {{ amb.get_estado_display }}<br>
+                        Tipo: {{ amb.get_tipo_A_display }}
+                    </p>
+                    <a href="{% url 'registrar_informe' amb.id %}" class="btn btn-success w-100">Seleccionar</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No se encontraron ambulancias con los filtros aplicados.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

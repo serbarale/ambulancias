@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Buscar Ambulancia para Check List</h2>
+
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-8">
+            <input type="text" name="placa" placeholder="Buscar por placa" class="form-control" value="{{ request.GET.placa }}">
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for amb in ambulancias %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ amb.placa }}</h5>
+                    <p class="card-text">
+                        Estado: {{ amb.get_estado_display }}<br>
+                        Tipo: {{ amb.get_tipo_A_display }}
+                    </p>
+                    <a href="{% url 'historial_checklist' amb.id %}" class="btn btn-success w-100">Seleccionar</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No se encontraron ambulancias.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Informes de Emergencia</h2>
+
+    <!-- Filtros -->
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-4">
+            <label for="prioridad" class="form-label">Prioridad</label>
+            <select name="prioridad" class="form-select">
+                <option value="">-- Todas --</option>
+                {% for key, value in prioridades %}
+                    <option value="{{ key }}" {% if filtro_actual.prioridad == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="placa" class="form-label">Buscar por placa</label>
+            <input type="text" name="placa" value="{{ filtro_actual.placa }}" class="form-control" placeholder="Ingrese placa">
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2">Filtrar</button>
+            <a href="{% url 'listar_informes_emergencia' %}" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </form>
+
+    {% if origen == 'ambulancias' %}
+    <div class="mb-3">
+        <a href="{% url 'asignar_ambulancia' %}" class="btn btn-success">Registrar nuevo informe</a>
+    </div>
+    {% endif %}
+
+    <!-- Tabla de informes -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Placa Ambulancia</th>
+                <th>Chofer</th>
+                <th>Prioridad</th>
+                <th>Dirección</th>
+                <th>Paciente</th>
+                {% if origen == 'pacientes' %}
+                <th>Acciones</th> 
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for informe in informes %}
+            <tr>
+                <td>{{ informe.fecha_registro|date:"d/m/Y H:i" }}</td>
+                <td>{{ informe.ambulancia.placa }}</td>
+                <td>{{ informe.nombre_chofer }}</td>
+                <td>{{ informe.get_prioridad_display }}</td>
+                <td>{{ informe.direccion}}</td>
+                <td>{{ informe.paciente_opcional|default:"—" }}</td>
+                {% if origen == 'pacientes' %}
+                <td> 
+                    <a href="{% url 'detalles_informe' informe.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a> <!-- ESTOO -->
+                </td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No se encontraron informes.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

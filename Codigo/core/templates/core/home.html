@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center fw-bold mb-4">Panel de Control</h2>
+
+    <!-- Tarjetas de navegación -->
+    <div class="row justify-content-center mb-5">
+        <!-- Ambulancias -->
+        <div class="col-md-3">
+            <div class="card text-center border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <img src="{% static 'ambulancia.png' %}" alt="Ambulancia" width="60" class="mb-3">
+                    <h5 class="card-title">Ambulancias</h5>
+                    <p class="card-text">Gestiona el estado y ubicación de las ambulancias</p>
+                    <a href="{% url 'submenu_ambulancias' %}" class="btn btn-danger">Ver Ambulancias</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pacientes -->
+        <div class="col-md-3">
+            <div class="card text-center border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <img src="{% static 'estetoscopio.png' %}" alt="Pacientes" width="60" class="mb-3">
+                    <h5 class="card-title">Pacientes</h5>
+                    <p class="card-text">Registro y seguimiento de pacientes</p>
+                    <a href="{% url 'submenu_pacientes' %}" class="btn btn-danger">Ver Pacientes</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventario -->
+        <div class="col-md-3">
+            <div class="card text-center border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <img src="{% static 'capsulas.png' %}" alt="Inventario" width="60" class="mb-3">
+                    <h5 class="card-title">Inventario</h5>
+                    <p class="card-text">Control de medicamentos y equipos médicos</p>
+                    <a href="{% url 'submenu_inventarios' %}" class="btn btn-danger">Ver Inventario</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estadísticas del sistema -->
+    <div class="text-center">
+        <h4 class="mb-3 fw-bold">Estadísticas del Sistema</h4>
+        <div class="row justify-content-center">
+            <div class="col-md-2 bg-light p-3 m-2 rounded shadow-sm">
+                <h2 class="text-danger">5</h2>
+                <p class="mb-0">Ambulancias Activas</p>
+            </div>
+            <div class="col-md-2 bg-light p-3 m-2 rounded shadow-sm">
+                <h2 class="text-danger">12</h2>
+                <p class="mb-0">Pacientes Registrados</p>
+            </div>
+            <div class="col-md-2 bg-light p-3 m-2 rounded shadow-sm">
+                <h2 class="text-danger">8</h2>
+                <p class="mb-0">Emergencias Hoy</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

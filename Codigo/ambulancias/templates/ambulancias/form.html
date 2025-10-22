@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ titulo }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="placa" class="form-label">Placa</label>
+            <input type="text" class="form-control" id="placa" name="placa" value="{{ ambulancia.placa|default:'' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select class="form-select" name="estado" id="estado" required>
+                {% for val, label in estados %}
+                    <option value="{{ val }}" {% if ambulancia.estado == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="tipo_A" class="form-label">Tipo</label>
+            <select class="form-select" name="tipo_A" id="tipo_A" required>
+                {% for val, label in tipos %}
+                    <option value="{{ val }}" {% if ambulancia.tipo_A == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="marca" class="form-label">Marca</label>
+            <input type="text" class="form-control" id="marca" name="marca" value="{{ ambulancia.marca|default:'' }}">
+        </div>
+        <div class="mb-3">
+            <label for="fecha_adquisicion" class="form-label">Fecha de Adquisición</label>
+            <input type="date" class="form-control" id="fecha_adquisicion" name="fecha_adquisicion" value="{{ ambulancia.fecha_adquisicion|default:'' }}">
+        </div>
+        <button type="submit" class="btn btn-primary">{{ boton }}</button>
+        <a href="{% url 'listar_ambulancias' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

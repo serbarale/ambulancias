@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2 class="mb-4 fw-bold">Menú de Pacientes</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'historial_busqueda' %}" class="btn btn-outline-danger w-100 py-3 fw-semibold">
+                Historial Médico
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'lista_informes_pacientes' %}" class="btn btn-outline-secondary w-100 py-3 fw-semibold">
+                Lista de Emergencias
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Insumos Médicos</h2>
+
+    <!-- Botón para registrar -->
+    <div class="mb-3">
+        <a href="{% url 'registrar_insumo' %}" class="btn btn-success">Registrar nuevo insumo</a>
+    </div>
+
+    <!-- Tabla -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Stock Mínimo</th>
+                <th>Unidad de Medida</th>
+                <th>Tipo Ambulancia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for insumo in insumos %}
+            <tr>
+                <td>{{ insumo.nombre }}</td>
+                <td>{{ insumo.stockMinimo }}</td>
+                <td>{{ insumo.get_unidadMedida_display }}</td>
+                <td>{{ insumo.get_tipoAmbulancia_display }}</td>
+                <td>
+                    <a href="{% url 'editar_insumo' insumo.id %}" class="btn btn-warning btn-sm">Editar</a>
+                    <a href="{% url 'eliminar_insumo' insumo.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este insumo?')">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No hay insumos registrados.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Registro de Combustible</h2>
+    <form method="get" class="mb-3 d-flex gap-3">
+        <input type="text" name="placa" class="form-control" placeholder="Buscar por placa">
+        <input type="date" name="fecha" class="form-control">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a href="{% url 'registrar_combustible' %}" class="btn btn-success">Registrar Nuevo</a>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Fecha</th>
+                <th>Comb. Inicial</th>
+                <th>Comb. Final</th>
+                <th>KM Inicial</th>
+                <th>KM Final</th>
+                <th>Colaborador</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td>{{ registro.ambulancia.placa }}</td>
+                <td>{{ registro.fecha_combustible }}</td>
+                <td>{{ registro.comb_inicial }}</td>
+                <td>{{ registro.comb_final }}</td>
+                <td>{{ registro.km_inicial }}</td>
+                <td>{{ registro.km_final }}</td>
+                <td>{{ registro.nombre_colaborador }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No se encontraron registros.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Registrar Avería</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="tipoF" class="form-label">Tipo de Avería</label>
+            <select name="tipoF" class="form-control" required>
+                <option value="critico">Crítico</option>
+                <option value="grave">Grave</option>
+                <option value="leve">Leve</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="descripcion_averia" class="form-label">Descripción</label>
+            <textarea name="descripcion_averia" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="ambulancia" class="form-label">Ambulancia</label>
+            <select name="ambulancia" class="form-control" required>
+                {% for amb in ambulancias %}
+                <option value="{{ amb.id }}">{{ amb.placa }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="nombre_colaborador" class="form-label">Nombre del Colaborador</label>
+            <input type="text" name="nombre_colaborador" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'lista_averias' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

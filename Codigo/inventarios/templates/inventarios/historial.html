@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Historial de Check Lists - Ambulancia {{ ambulancia.placa }}</h2>
+
+    <!-- Filtros -->
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <label for="fecha_inicio" class="form-label">Desde</label>
+            <input type="date" name="fecha_inicio" class="form-control" value="{{ request.GET.fecha_inicio }}">
+        </div>
+        <div class="col-md-5">
+            <label for="fecha_fin" class="form-label">Hasta</label>
+            <input type="date" name="fecha_fin" class="form-control" value="{{ request.GET.fecha_fin }}">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <!-- Botón para nuevo check list -->
+    <div class="mb-3 d-flex justify-content-between">
+        <a href="{% url 'registrar_checklist' ambulancia.id %}" class="btn btn-success">Registrar nuevo Check List</a>
+    </div>
+
+    <!-- Tabla de historial -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Responsable</th>
+                <th>Insumos a Reponer</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for checklist in checklists %}
+            <tr>
+                <td>{{ checklist.fecha_registro|date:"d/m/Y H:i" }}</td>
+                <td>{{ checklist.nombre_colaborador }}</td>
+                <td>{{ checklist.insumos_reponer }}</td>
+                <td>
+                    <a href="{% url 'editar_checklist' checklist.id %}" class="btn btn-sm btn-outline-warning">Editar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No se encontraron check lists para esta ambulancia.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'buscar_ambulancia_checklist' %}" class="btn btn-secondary mt-3">Volver a búsqueda</a>
+</div>
+{% endblock %}

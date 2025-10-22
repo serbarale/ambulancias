@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center fw-bold mb-4">Buscar Historial Médico</h2>
+
+    <!-- Formulario de búsqueda -->
+    <form method="GET" action="{% url 'historial_busqueda' %}" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <input type="text" name="dni" class="form-control" placeholder="Buscar por DNI">
+        </div>
+        <div class="col-md-5">
+            <input type="text" name="nombre" class="form-control" placeholder="Buscar por Nombre">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-danger w-100">Buscar</button>
+        </div>
+    </form>
+
+    {% if paciente %}
+        <div class="card p-4 shadow-sm">
+            <h4 class="fw-semibold">Resultado</h4>
+            <p><strong>Nombre:</strong> {{ paciente.nombre }}</p>
+            <p><strong>Apellido:</strong> {{ paciente.apellido }}</p>
+            <p><strong>DNI:</strong> {{ paciente.dni }}</p>
+
+            <hr>
+            <h5 class="fw-bold">Historial Médico</h5>
+            {% if historial %}
+                <ul>
+                    <li><strong>Alergias:</strong> {{ historial.alergias }}</li>
+                    <li><strong>Tipo de Sangre:</strong> {{ historial.tipoSangre }}</li>
+                    <li><strong>Enfermedades:</strong> {{ historial.enfermedades }}</li>
+                </ul>
+                <a href="{% url 'historial_actualizar' paciente.id %}" class="btn btn-outline-primary mt-3">Actualizar Historial</a>
+            {% else %}
+                <p class="text-muted">No hay historial registrado.</p>
+            {% endif %}
+        </div>
+    {% elif buscado %}
+        <p class="text-danger text-center">No se encontraron coincidencias.</p>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{% url 'historial_registrar' %}" class="btn btn-success">Registrar nuevo historial</a>
+    </div>
+</div>
+{% endblock %}

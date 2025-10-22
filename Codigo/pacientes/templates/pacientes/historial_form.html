@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center fw-bold mb-4">{{ titulo }}</h2>
+
+    <form method="POST" class="card p-4 shadow-sm">
+        {% csrf_token %}
+
+        <h5 class="mb-3">Datos del Paciente</h5>
+        {# Nombre del paciente#}
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ paciente.nombre|default:'' }}" required>
+        </div>
+        {# Apellido del paciente#}
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" name="apellido" id="apellido" class="form-control" value="{{ paciente.apellido|default:'' }}" required>
+        </div>
+        {# DNI del paciente #}
+        <div class="mb-3">
+            <label for="dni" class="form-label">DNI</label>
+            <input type="text" name="dni" id="dni" class="form-control" value="{{ paciente.dni|default:'' }}" required>
+        </div>
+        {# Dirección (opcional) #}
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección (Opcional)</label>
+            <input type="text" name="direccion" id="direccion" class="form-control" value="{{ paciente.direccion|default:'' }}">
+        </div>
+        {# Email (opcional) #}
+        <div class="mb-3">
+            <label for="email" class="form-label">Email (Opcional)</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ paciente.email|default:'' }}">
+        </div>
+        {# Teléfono (opcional) #}
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono (Opcional)</label>
+            <input type="tel" name="telefono" id="telefono" class="form-control" value="{{ paciente.telefono|default:'' }}">
+        </div>
+        {# Fecha de Nacimiento #}
+        <div class="mb-3">
+            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+            {# Formateamos la fecha para el input type="date" a 'YYYY-MM-DD' #}
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" value="{{ paciente.fecha_nacimiento|date:'Y-m-d'|default:'' }}" required>
+        </div>
+        {# Género #}
+        <div class="mb-3">
+            <label for="genero" class="form-label">Género</label>
+            <select name="genero" id="genero" class="form-select" required>
+                <option value="">Seleccione...</option>
+                <option value="Masculino" {% if paciente.genero == 'Masculino' %}selected{% endif %}>Masculino</option>
+                <option value="Femenino" {% if paciente.genero == 'Femenino' %}selected{% endif %}>Femenino</option>
+            </select>
+        </div>
+
+        <h5 class="mb-3">Datos del Historial Médico</h5>
+        {# Alergias #}
+        <div class="mb-3">
+            <label for="alergias" class="form-label">Alergias</label>
+            <textarea name="alergias" id="alergias" class="form-control" rows="3">{{ historial.alergias|default:'' }}</textarea>
+        </div>
+        {# Tipo de Sangre #}
+        <div class="mb-3">
+            <label for="tipo_sangre" class="form-label">Tipo de Sangre</label>
+            <select name="tipo_sangre" id="tipo_sangre" class="form-select">
+                <option value="">Seleccione...</option>
+                <option value="A+" {% if historial.tipo_sangre == 'A+' %}selected{% endif %}>A+</option>
+                <option value="A-" {% if historial.tipo_sangre == 'A-' %}selected{% endif %}>A-</option>
+                <option value="B+" {% if historial.tipo_sangre == 'B+' %}selected{% endif %}>B+</option>
+                <option value="B-" {% if historial.tipo_sangre == 'B-' %}selected{% endif %}>B-</option>
+                <option value="AB+" {% if historial.tipo_sangre == 'AB+' %}selected{% endif %}>AB+</option>
+                <option value="AB-" {% if historial.tipo_sangre == 'AB-' %}selected{% endif %}>AB-</option>
+                <option value="O+" {% if historial.tipo_sangre == 'O+' %}selected{% endif %}>O+</option>
+                <option value="O-" {% if historial.tipo_sangre == 'O-' %}selected{% endif %}>O-</option>
+            </select>
+        </div>
+        {# Enfermedades #}
+        <div class="mb-3">
+            <label for="enfermedades" class="form-label">Enfermedades</label>
+            <textarea name="enfermedades" id="enfermedades" class="form-control" rows="3">{{ historial.enfermedades|default:'' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-danger">{{ boton }}</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Gestión de Ambulancias</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados opcionales -->
+    <style>
+        body {
+            background-color: #f5f7fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Asegura que el body ocupe al menos la altura de la ventana */
+        }
+
+        .navbar {
+            background-color: #e74c3c;
+        }
+
+        .navbar-brand, .nav-link, .navbar-text {
+            color: white !important;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        footer {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">🚑 Sistema de Gestión de Ambulancias</a>
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ambulancias/">Ambulancias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inventario/">Inventario</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/historiales/">Historial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/usuarios/logout/">Salir</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <main class="container mt-5">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto">
+        <div class="container">
+            <small>&copy; 2025 - Sistema de Gestión de Ambulancias</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

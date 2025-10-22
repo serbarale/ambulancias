@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2 class="mb-4 fw-bold">Menú de Inventario</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'buscar_ambulancia_checklist' %}" class="btn btn-outline-primary w-100 py-3 fw-semibold">
+                Check List de Inventario
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'listar_insumos' %}" class="btn btn-outline-success w-100 py-3 fw-semibold">
+                Lista de Insumos
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
