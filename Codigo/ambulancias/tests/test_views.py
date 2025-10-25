@@ -1,4 +1,3 @@
-view# ambulancias/tests/test_views.py
 import pytest
 from django.urls import reverse
 from django.test import Client
@@ -7,6 +6,17 @@ from ambulancias.models import Ambulancia
 @pytest.fixture
 def client():
     return Client()
+
+import pytest
+from django.urls import reverse
+from django.test import Client
+from ambulancias.models import Ambulancia
+
+
+@pytest.fixture
+def client():
+    return Client()
+
 
 @pytest.mark.django_db
 def test_tc01_registrar_ambulancia_valida_via_view(client):

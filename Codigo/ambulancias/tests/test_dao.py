@@ -10,7 +10,7 @@ def test_dao_create_ambulancia_valida():
     assert Ambulancia.objects.count() == 0
     
     # Pasos: Usar DAO para crear
-    ambulancia = AmbulanciaDAO.create(placa='XYZ-789', estado='Disponible', tipo='Tipo I', marca='Toyota', fecha_adquisicion=timezone.now(), capacidad=6)
+    ambulancia = AmbulanciaDAO.crear(placa='XYZ-789', estado='Disponible', tipo='Tipo I', marca='Toyota', fecha_adquisicion=timezone.now(), capacidad=6)
     
     # Resultado esperado
     assert Ambulancia.objects.count() == 1

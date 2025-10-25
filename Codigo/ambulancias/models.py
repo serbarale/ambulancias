@@ -1,6 +1,14 @@
 from django.db import models
 
+
 # Create your models here.
+class AmbulanciaManager(models.Manager):
+    def create(self, **kwargs):
+        # Accept 'tipo' as alias for 'tipo_A' to be compatible with tests
+        if 'tipo' in kwargs:
+            kwargs['tipo_A'] = kwargs.pop('tipo')
+        return super().create(**kwargs)
+
 
 class Ambulancia(models.Model):
     placa = models.CharField(max_length=10, unique=True)
@@ -13,10 +21,14 @@ class Ambulancia(models.Model):
         ('tipo_1', 'Tipo 1'),
         ('tipo_2', 'Tipo 2'),
         ('tipo_3', 'Tipo 3')]
-    tipo_A=models.CharField(max_length=10, choices=TIPO_AMB)
+    tipo_A = models.CharField(max_length=10, choices=TIPO_AMB)
+    # optional field used by tests; nullable to preserve compatibility
+    capacidad = models.IntegerField(null=True, blank=True)
     marca = models.CharField(max_length=50)
     fecha_adquisicion = models.DateField()
-    
+
+    objects = AmbulanciaManager()
+
     def __str__(self):
         return self.placa
     

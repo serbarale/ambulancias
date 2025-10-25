@@ -24,10 +24,12 @@ def listar_ambulancias(request):
 
 def registrar_ambulancia(request):
     if request.method == 'POST':
+        # Accept both 'tipo' and 'tipo_A' form keys for compatibility
+        tipo_val = request.POST.get('tipo_A') or request.POST.get('tipo')
         datos = {
             'placa': request.POST.get('placa'),
             'estado': request.POST.get('estado'),
-            'tipo_A': request.POST.get('tipo_A'),
+            'tipo_A': tipo_val,
             'marca': request.POST.get('marca'),
             'fecha_adquisicion': request.POST.get('fecha_adquisicion')
         }
@@ -45,10 +47,11 @@ def editar_ambulancia(request, id):
     ambulancia = AmbulanciaService.obtener_ambulancia(id)
 
     if request.method == 'POST':
+        tipo_val = request.POST.get('tipo_A') or request.POST.get('tipo')
         datos = {
             'placa': request.POST.get('placa'),
             'estado': request.POST.get('estado'),
-            'tipo_A': request.POST.get('tipo_A'),
+            'tipo_A': tipo_val,
             'marca': request.POST.get('marca'),
             'fecha_adquisicion': request.POST.get('fecha_adquisicion')
         }
