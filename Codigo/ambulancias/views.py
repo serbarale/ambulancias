@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .services.ambulancia_service import AmbulanciaService
 from .services.averia_service import AveriaService
 from .services.combustible_service import CombustibleService
@@ -34,7 +35,7 @@ def registrar_ambulancia(request):
             'fecha_adquisicion': request.POST.get('fecha_adquisicion')
         }
         AmbulanciaService.registrar_ambulancia(datos)
-        return redirect('listar_ambulancias')
+        return redirect(reverse('ambulancias:listar_ambulancias'))
     
     return render(request, 'ambulancias/form.html', {
         'titulo': 'Registrar Ambulancia',
@@ -56,7 +57,7 @@ def editar_ambulancia(request, id):
             'fecha_adquisicion': request.POST.get('fecha_adquisicion')
         }
         AmbulanciaService.actualizar_ambulancia(id, datos)
-        return redirect('listar_ambulancias')
+        return redirect(reverse('ambulancias:listar_ambulancias'))
     
     return render(request, 'ambulancias/form.html', {
         'titulo': 'Editar Ambulancia',
@@ -94,7 +95,7 @@ def registrar_averia(request):
             "nombre_colaborador": request.POST.get("nombre_colaborador"),
         }
         AveriaService.registrar_averia(datos)
-        return redirect("lista_averias")
+        return redirect(reverse('ambulancias:lista_averias'))
 
     return render(request, "averia/registrar_averia.html", {"ambulancias": ambulancias})
 
@@ -129,6 +130,6 @@ def registrar_combustible(request):
             "ambulancia_id": request.POST.get("ambulancia"),
         }
         CombustibleService.registrar_combustible(datos)
-        return redirect("lista_combustible")
+        return redirect(reverse('ambulancias:lista_combustible'))
 
     return render(request, "combustible/registrar_combustible.html", {"ambulancias": ambulancias})

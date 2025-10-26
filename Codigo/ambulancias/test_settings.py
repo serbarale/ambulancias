@@ -17,7 +17,7 @@ DATABASES = {
 
 USE_TZ = True
 
-ROOT_URLCONF = "ambulancias.urls"
+ROOT_URLCONF = "urlconf"
 
 MIDDLEWARE = []
 

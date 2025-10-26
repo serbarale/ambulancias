@@ -19,7 +19,10 @@ class InformeEmergenciaDAO:
 
     @staticmethod
     def crear(datos):
-        return InformeEmergencia.objects.create(**datos)
+        informe = InformeEmergencia(**datos)
+        informe.full_clean()
+        informe.save()
+        return informe
 
     @staticmethod
     def actualizar_estado(id, nuevo_estado):

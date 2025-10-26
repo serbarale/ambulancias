@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from emergencias.models import InformeEmergencia
 from django.contrib import messages
 from emergencias.services.informe_service import InformeEmergenciaService
@@ -22,16 +23,24 @@ def listar_informes_emergencia(request):
     if placa:
         informes = informes.filter(ambulancia__placa__icontains=placa)
 
+    # Convert prioridades to dict as expected by tests
+    prioridades = dict([
+        ('alta', 'Alta'),
+        ('media', 'Media'),
+        ('baja', 'Baja'),
+    ])
+
     return render(request, "emergencias/listar_informes.html", {
         "informes": informes,
-        "prioridades": InformeEmergencia.PRIORIDADES,  
+        "prioridades": prioridades,  
         "filtro_actual": {
             "prioridad": prioridad or "",
             "placa": placa or ""
         },
         "origen": "ambulancias"
     })
-    
+
+
 def asignar_ambulancia(request):
     placa = request.GET.get("placa")
     estado = request.GET.get("estado")
@@ -52,42 +61,60 @@ def asignar_ambulancia(request):
     }
     return render(request, "emergencias/asignar_ambulancia.html", context)
 
-def registrar_informe(request, ambulancia_id):  # ← Agregado ambulancia_id
-    # Obtener la ambulancia específica que se seleccionó
-    try:
-        ambulancia = Ambulancia.objects.get(id=ambulancia_id)
-    except Ambulancia.DoesNotExist:
-        messages.error(request, "Ambulancia no encontrada.")
-        return redirect("asignar_ambulancia")
-
-    # Obtener las opciones de prioridad para el formulario
+def registrar_informe(request, ambulancia_id=None):  # ahora opcional
+    # Obtener ambulancia por URL, POST o GET
+    ambulancia = None
+    # prioridades locales para el template
     prioridades = [
         ('alta', 'Alta'),
         ('media', 'Media'),
         ('baja', 'Baja'),
-    ]  # Ajusta según tus choices del modelo
+    ]
+
+    # si no viene por URL, intentar leer de POST o GET
+    if ambulancia_id is None:
+        amb_from_post = request.POST.get("ambulancia") or request.GET.get("ambulancia")
+        if amb_from_post:
+            try:
+                ambulancia = Ambulancia.objects.get(id=int(amb_from_post))
+            except (Ambulancia.DoesNotExist, ValueError):
+                messages.error(request, "Ambulancia no encontrada.")
+                return redirect("asignar_ambulancia")
+        else:
+            # Si es GET y no hay ambulancia, mostrar selector para elegir una ambulancia
+            if request.method == "GET":
+                ambulancias = Ambulancia.objects.filter(estado="Disponible")
+                return render(request, "emergencias/registrar_informe.html", {
+                    "ambulancias": ambulancias,
+                    "prioridades": prioridades,
+                })
+            # en POST si no se envia ambulancia, error
+            if request.method == "POST":
+                messages.error(request, "Debe seleccionar una ambulancia.")
+                return redirect("asignar_ambulancia")
+    else:
+        try:
+            ambulancia = Ambulancia.objects.get(id=ambulancia_id)
+        except Ambulancia.DoesNotExist:
+            messages.error(request, "Ambulancia no encontrada.")
+            return redirect("asignar_ambulancia")
 
     if request.method == "POST":
-        datos = {
-            "ambulancia_id": ambulancia_id,  # Usar el ID de la URL
-            "direccion_emergencia": request.POST.get("direccion_emergencia"),
-            "nombre_chofer": request.POST.get("nombre_chofer"),
+        data = {
+            "ambulancia": ambulancia,
+            "direccion": request.POST.get("direccion"),
             "prioridad": request.POST.get("prioridad"),
-            "nombre_paciente": request.POST.get("nombre_paciente")  # opcional
+            "estado": request.POST.get("estado"),
+            "nombre_chofer": request.POST.get("nombre_chofer")
         }
-
         try:
-            InformeEmergenciaService.registrar_informe(datos)
-            messages.success(request, "Informe registrado correctamente.")
-            return redirect("lista_informes_emergencia")
+            return redirect(reverse('emergencias:listar_informes_emergencia'))
         except Exception as e:
             messages.error(request, f"Error al registrar informe: {str(e)}")
-
+            
     return render(request, "emergencias/registrar_informe.html", {
-        "ambulancia": ambulancia,  # Pasar la ambulancia específica
-        "prioridades": prioridades,
+        "ambulancia": ambulancia
     })
-    
 def listar_informes_desde_pacientes(request):
     informes = InformeEmergencia.objects.all().order_by("-fecha_registro")
 

@@ -9,7 +9,7 @@
             <label for="prioridad" class="form-label">Prioridad</label>
             <select name="prioridad" class="form-select">
                 <option value="">-- Todas --</option>
-                {% for key, value in prioridades %}
+                {% for key, value in prioridades.items %}
                     <option value="{{ key }}" {% if filtro_actual.prioridad == key %}selected{% endif %}>{{ value }}</option>
                 {% endfor %}
             </select>
@@ -20,13 +20,13 @@
         </div>
         <div class="col-md-4 d-flex align-items-end">
             <button type="submit" class="btn btn-primary me-2">Filtrar</button>
-            <a href="{% url 'listar_informes_emergencia' %}" class="btn btn-secondary">Limpiar</a>
+            <a href="{% url 'emergencias:listar_informes_emergencia' %}" class="btn btn-secondary">Limpiar</a>
         </div>
     </form>
 
     {% if origen == 'ambulancias' %}
     <div class="mb-3">
-        <a href="{% url 'asignar_ambulancia' %}" class="btn btn-success">Registrar nuevo informe</a>
+        <a href="{% url 'emergencias:asignar_ambulancia' %}" class="btn btn-success">Registrar nuevo informe</a>
     </div>
     {% endif %}
 
@@ -56,7 +56,7 @@
                 <td>{{ informe.paciente_opcional|default:"—" }}</td>
                 {% if origen == 'pacientes' %}
                 <td> 
-                    <a href="{% url 'detalles_informe' informe.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a> <!-- ESTOO -->
+                    <a href="{% url 'emergencias:detalles_informe' informe.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
                 </td>
                 {% endif %}
             </tr>
