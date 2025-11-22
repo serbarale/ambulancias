@@ -6,16 +6,16 @@
     <h2 class="text-center">Gestión de Ambulancias</h2>
     <div class="row mt-4 justify-content-center">
         <div class="col-md-4 mb-3">
-            <a href="{% url 'listar_ambulancias' %}" class="btn btn-outline-primary w-100 py-3 fw-semibold">Lista de Ambulancias</a>
+            <a href="{% url 'ambulancias:listar_ambulancias' %}" class="btn btn-outline-primary w-100 py-3 fw-semibold">Lista de Ambulancias</a>
         </div>
         <div class="col-md-4 mb-3">
-            <a href="{% url 'listar_informes_emergencia' %}" class="btn btn-outline-danger w-100 py-3 fw-semibold">Generar Envío de Ambulancia</a>
+            <a href="{% url 'emergencias:listar_informes_emergencia' %}" class="btn btn-outline-danger w-100 py-3 fw-semibold">Generar Envío de Ambulancia</a>
         </div>
         <div class="col-md-4 mb-3">
-            <a href="{% url 'lista_averias' %}" class="btn btn-outline-warning w-100 py-3 fw-semibold">Reporte de Averías</a>
+            <a href="{% url 'ambulancias:lista_averias' %}" class="btn btn-outline-warning w-100 py-3 fw-semibold">Reporte de Averías</a>
         </div>
         <div class="col-md-4 mb-3">
-            <a href="{% url 'lista_combustible' %}" class="btn btn-outline-success w-100 py-3 fw-semibold">Control de Combustible</a>
+            <a href="{% url 'ambulancias:lista_combustible' %}" class="btn btn-outline-success w-100 py-3 fw-semibold">Control de Combustible</a>
         </div>
     </div>
 </div>

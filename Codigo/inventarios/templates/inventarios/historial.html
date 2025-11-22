@@ -20,7 +20,7 @@
 
     <!-- Botón para nuevo check list -->
     <div class="mb-3 d-flex justify-content-between">
-        <a href="{% url 'registrar_checklist' ambulancia.id %}" class="btn btn-success">Registrar nuevo Check List</a>
+        <a href="{% url 'inventarios:registrar_checklist' ambulancia.id %}" class="btn btn-success">Registrar nuevo Check List</a>
     </div>
 
     <!-- Tabla de historial -->
@@ -40,7 +40,7 @@
                 <td>{{ checklist.nombre_colaborador }}</td>
                 <td>{{ checklist.insumos_reponer }}</td>
                 <td>
-                    <a href="{% url 'editar_checklist' checklist.id %}" class="btn btn-sm btn-outline-warning">Editar</a>
+                    <a href="{% url 'inventarios:editar_checklist' checklist.id %}" class="btn btn-sm btn-outline-warning">Editar</a>
                 </td>
             </tr>
             {% empty %}
