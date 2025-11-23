@@ -35,7 +35,7 @@
             <input type="date" class="form-control" id="fecha_adquisicion" name="fecha_adquisicion" value="{{ ambulancia.fecha_adquisicion|default:'' }}">
         </div>
         <button type="submit" class="btn btn-primary">{{ boton }}</button>
-        <a href="{% url 'listar_ambulancias' %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'ambulancias:listar_ambulancias' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 {% endblock %}

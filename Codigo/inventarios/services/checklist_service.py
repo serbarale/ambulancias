@@ -30,4 +30,4 @@ class CheckListService:
 
     @staticmethod
     def contar_insumos_a_reponer(insumos):
-        return sum(1 for insumo in insumos if insumo["cantidad"] < insumo["stock_minimo"])
+        return sum(1 for insumo in insumos if insumo["cantidad_contada"] < insumo["stockMinimo"])

@@ -19,7 +19,16 @@ class InformeEmergenciaDAO:
 
     @staticmethod
     def crear(datos):
-        return InformeEmergencia.objects.create(**datos)
+        datos_modelo = datos.copy()
+        if 'direccion_emergencia' in datos_modelo:
+            datos_modelo['direccion'] = datos_modelo.pop('direccion_emergencia')
+        if 'nombre_paciente' in datos_modelo:
+            datos_modelo['paciente_opcional'] = datos_modelo.pop('nombre_paciente')
+        
+        informe = InformeEmergencia(**datos_modelo)
+        informe.full_clean()
+        informe.save()
+        return informe
 
     @staticmethod
     def actualizar_estado(id, nuevo_estado):

@@ -6,28 +6,23 @@ from inventarios.models import InsumoMedico
 # Create your models here.
 
 class InformeEmergencia(models.Model):
-    ESTADOS = [
-        ('pendiente', 'Pendiente'),
-        ('cancelado', 'Cancelado'),
-        ('finalizado', 'Finalizado'),
-    ]
-
     PRIORIDADES = [
         ('alta', 'Alta'),
         ('media', 'Media'),
-        ('baja', 'Baja'),
+        ('baja', 'Baja')
     ]
 
     ambulancia = models.ForeignKey(Ambulancia, on_delete=models.CASCADE)
-    direccion = models.CharField(max_length=255)
-    prioridad = models.CharField(max_length=10, choices=PRIORIDADES)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
-    estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
+    direccion = models.CharField(max_length=200) 
+    prioridad = models.CharField(max_length=50, choices=PRIORIDADES)
+    estado = models.CharField(max_length=50, choices=[
+        ('pendiente', 'Pendiente'),
+        ('en_curso', 'En Curso'),
+        ('completado', 'Completado')
+    ])
     nombre_chofer = models.CharField(max_length=100)
-    paciente_opcional = models.CharField(max_length=100, blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.direccion} - {self.prioridad} - {self.fecha_registro.strftime('%d/%m/%Y %H:%M')}"
+    paciente_opcional = models.CharField(max_length=100, null=True, blank=True)
+    fecha_registro = models.DateTimeField(auto_now_add=True)
 
 class FormatoRevocacion(models.Model):
     TIPO_PERSONA = [

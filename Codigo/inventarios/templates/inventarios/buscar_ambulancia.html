@@ -22,7 +22,7 @@
                         Estado: {{ amb.get_estado_display }}<br>
                         Tipo: {{ amb.get_tipo_A_display }}
                     </p>
-                    <a href="{% url 'historial_checklist' amb.id %}" class="btn btn-success w-100">Seleccionar</a>
+                    <a href="{% url 'inventarios:historial_checklist' amb.id %}" class="btn btn-success w-100">Seleccionar</a>
                 </div>
             </div>
         </div>

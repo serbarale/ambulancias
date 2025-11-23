@@ -14,12 +14,12 @@
 
             <!-- Botones de acción -->
             <div class="mt-4">
-                <a href="{% url 'generar_revocacion' informe.id %}" class="btn btn-outline-danger me-2">Generar Revocación</a>
-                <a href="{% url 'generar_consentimiento' informe.id %}" class="btn btn-outline-warning me-2">Generar Consentimiento</a>
-                <a href="{% url 'generar_reporte_emergencia' informe.id %}" class="btn btn-outline-success">Generar Reporte Asistido</a>
+                <a href="{% url 'emergencias:generar_revocacion' informe.id %}" class="btn btn-outline-danger me-2">Generar Revocación</a>
+                <a href="{% url 'emergencias:generar_consentimiento' informe.id %}" class="btn btn-outline-warning me-2">Generar Consentimiento</a>
+                <a href="{% url 'emergencias:generar_reporte_emergencia' informe.id %}" class="btn btn-outline-success">Generar Reporte Asistido</a>
             </div>
         </div>
     </div>
-    <a href="{% url 'listar_informes_emergencia' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
+    <a href="{% url 'emergencias:listar_informes_emergencia' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
 </div>
 {% endblock %}

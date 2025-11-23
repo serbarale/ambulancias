@@ -21,7 +21,11 @@ class AmbulanciaDAO:
         return Ambulancia.objects.get(id=id)
 
     @staticmethod
-    def crear(datos):
+    def crear(*args, **kwargs):
+        if args and isinstance(args[0], dict):
+            datos = args[0]
+        else:
+            datos = kwargs
         return Ambulancia.objects.create(**datos)
 
     @staticmethod

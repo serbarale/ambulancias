@@ -31,7 +31,7 @@
     </form>
 
     <div class="mb-3 text-end">
-        <a href="{% url 'registrar_ambulancia' %}" class="btn btn-success">Registrar Nueva Ambulancia</a>
+        <a href="{% url 'ambulancias:registrar_ambulancia' %}" class="btn btn-success">Registrar Nueva Ambulancia</a>
     </div>
 
     <table class="table table-bordered table-hover">
@@ -50,7 +50,7 @@
                 <td>{{ ambulancia.get_tipo_A_display }}</td>
                 <td>{{ ambulancia.get_estado_display }}</td>
                 <td>
-                    <a href="{% url 'editar_ambulancia' ambulancia.id %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'ambulancias:editar_ambulancia' ambulancia.id %}" class="btn btn-sm btn-warning">Editar</a>
                 </td>
             </tr>
             {% empty %}

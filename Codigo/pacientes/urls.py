@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+app_name = 'pacientes'
+
 urlpatterns = [
     path('submenu/', views.submenu, name='submenu_pacientes'),
     path('historial/', views.historial_busqueda, name='historial_busqueda'),

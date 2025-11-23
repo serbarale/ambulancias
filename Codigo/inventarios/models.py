@@ -6,6 +6,8 @@ from ambulancias.models import Ambulancia
 class InsumoMedico(models.Model):
     nombre = models.CharField(max_length=100, null=False, blank=False)
     stockMinimo = models.IntegerField(null=False, blank=False)
+    stock_actual = models.IntegerField(default=0)
+    fecha_expiracion = models.DateField(null=True, blank=True)
     UNIDADES =[
         ('unidades', 'Unidades'),
         ('paquetes', 'Paquetes'),
@@ -37,3 +39,20 @@ class DetalleCheckList(models.Model):
     def __str__(self):
         return f"{self.insumo.nombre} - {self.cantidad_contada}"
     
+class SolicitudReposicion(models.Model):
+    insumo = models.ForeignKey(InsumoMedico, on_delete=models.CASCADE)
+    cantidad_solicitada = models.IntegerField()
+    fecha_solicitud = models.DateTimeField(auto_now_add=True)
+    estado = models.CharField(
+        max_length=20,
+        choices=[
+            ('pendiente', 'Pendiente'),
+            ('aprobada', 'Aprobada'),
+            ('rechazada', 'Rechazada')
+        ],
+        default='pendiente'
+    )
+    observaciones = models.TextField(blank=True)
+    
+    def __str__(self):
+        return f"Solicitud {self.id} - {self.insumo.nombre}"

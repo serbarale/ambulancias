@@ -22,8 +22,8 @@ class CombustibleService:
 
         combustible = Combustible(
             fecha_combustible=parse_date(datos["fecha_combustible"]),
-            comb_inicial=int(datos["comb_inicial"]),
-            comb_final=int(datos["comb_final"]),
+            comb_inicial=float(datos["comb_inicial"]),
+            comb_final=float(datos["comb_final"]),
             km_inicial=int(datos["km_inicial"]),
             km_final=int(datos["km_final"]),
             nombre_colaborador=datos["nombre_colaborador"],
@@ -31,3 +31,4 @@ class CombustibleService:
         )
 
         CombustibleDAO.guardar_combustible(combustible)
+        return combustible
