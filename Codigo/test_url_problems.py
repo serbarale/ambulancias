@@ -155,7 +155,7 @@ class TestURLReverseMatch:
         for url_name, kwargs in urls_incorrectas:
             with pytest.raises(NoReverseMatch):
                 reverse(url_name, kwargs=kwargs)
-                print(f"✅ {url_name} correctamente falló sin parámetros")
+                print(f"{url_name} correctamente falló sin parámetros")
 
     def test_deteccion_urls_duplicadas(self):
         """Detectar URLs duplicadas que pueden causar conflictos."""
@@ -175,7 +175,7 @@ class TestURLReverseMatch:
             assert url1 != url2  # Deben ser URLs diferentes
             
         except NoReverseMatch as e:
-            pytest.fail(f"❌ Conflicto de URLs duplicadas: {e}")
+            pytest.fail(f"Conflicto de URLs duplicadas: {e}")
 
     def test_urls_inventarios_y_pacientes(self):
         """Verificar URLs de módulos inventarios y pacientes si existen."""
@@ -201,6 +201,14 @@ class TestTemplateURLTags:
     
     def setup_method(self):
         self.client = Client()
+        self.ambulancia = Ambulancia.objects.create(
+            placa="TPL-001",
+            estado="preparada",
+            tipo="tipo_1",
+            marca="Template Test",
+            fecha_adquisicion=date(2024, 1, 1),
+            capacidad=4
+        )
         
     def test_renderizado_templates_sin_errores(self):
         """Verificar que los templates se renderizan sin NoReverseMatch."""
@@ -215,9 +223,55 @@ class TestTemplateURLTags:
             
             # Si hay NoReverseMatch en template, será error 500
             if response.status_code == 500:
-                pytest.fail(f"❌ Template en {url} tiene NoReverseMatch en url tags")
+                pytest.fail(f"Template en {url} tiene NoReverseMatch en url tags")
             
-            print(f"✅ Template en {url} renderiza correctamente (status: {response.status_code})")
+            print(f"Template en {url} renderiza correctamente (status: {response.status_code})")
+    
+    def test_post_registrar_ambulancia(self):
+        """Test POST para registrar ambulancia desde formulario"""
+        url = reverse('ambulancias:registrar_ambulancia')
+        data = {
+            'placa': 'POST-001',
+            'estado': 'Disponible',
+            'tipo_A': 'Tipo I',
+            'marca': 'Toyota',
+            'fecha_adquisicion': '2024-11-22'
+        }
+        response = self.client.post(url, data)
+        assert response.status_code == 302
+        assert Ambulancia.objects.filter(placa='POST-001').exists()
+    
+    def test_post_registrar_informe(self):
+        """Test POST para registrar informe de emergencia"""
+        url = reverse('emergencias:registrar_informe', kwargs={'ambulancia_id': self.ambulancia.id})
+        data = {
+            'direccion': 'Av Test 123',
+            'prioridad': 'alta',
+            'estado': 'pendiente',
+            'nombre_chofer': 'Test Driver'
+        }
+        response = self.client.post(url, data)
+        assert response.status_code in [200, 302]  # Puede requerir autenticación
+    
+    def test_filtros_ambulancias(self):
+        """Test filtros en listado de ambulancias"""
+        url = reverse('ambulancias:listar_ambulancias')
+        response = self.client.get(url, {'estado': 'preparada'})
+        assert response.status_code == 200
+        assert 'ambulancias' in response.context
+    
+    def test_busqueda_paciente(self):
+        """Test búsqueda de paciente"""
+        Paciente.objects.create(
+            nombre="Test",
+            apellido="Search",
+            dni="99999999",
+            fechaNacimiento=date(1990, 1, 1),
+            sexo="M"
+        )
+        url = reverse('pacientes:historial_busqueda')
+        response = self.client.get(url, {'dni': '99999999'})
+        assert response.status_code == 200
 
 if __name__ == '__main__':
     """Ejecutar con: pytest test_url_problems.py -v"""

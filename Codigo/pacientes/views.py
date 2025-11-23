@@ -41,7 +41,7 @@ def historial_registrar(request):
         }
 
         HistorialService.registrar_historial(datos_paciente, datos_historial)
-        return redirect('historial_busqueda')
+        return redirect('pacientes:historial_busqueda')
 
     return render(request, 'pacientes/historial_form.html', {
         'titulo': 'Registrar Historial Médico',
@@ -68,7 +68,7 @@ def historial_actualizar(request, paciente_id):
         }
 
         HistorialService.actualizar_historial(paciente_id, datos_paciente, datos_historial)
-        return redirect('historial_busqueda')
+        return redirect('pacientes:historial_busqueda')
 
     paciente, historial = HistorialService.buscar_historial(dni=None, nombre=None)
     return render(request, 'pacientes/historial_form.html', {

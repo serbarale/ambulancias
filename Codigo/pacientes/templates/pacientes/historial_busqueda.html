@@ -5,7 +5,7 @@
     <h2 class="text-center fw-bold mb-4">Buscar Historial Médico</h2>
 
     <!-- Formulario de búsqueda -->
-    <form method="GET" action="{% url 'historial_busqueda' %}" class="row g-3 mb-4">
+    <form method="GET" action="{% url 'pacientes:historial_busqueda' %}" class="row g-3 mb-4">
         <div class="col-md-5">
             <input type="text" name="dni" class="form-control" placeholder="Buscar por DNI">
         </div>
@@ -32,7 +32,7 @@
                     <li><strong>Tipo de Sangre:</strong> {{ historial.tipoSangre }}</li>
                     <li><strong>Enfermedades:</strong> {{ historial.enfermedades }}</li>
                 </ul>
-                <a href="{% url 'historial_actualizar' paciente.id %}" class="btn btn-outline-primary mt-3">Actualizar Historial</a>
+                <a href="{% url 'pacientes:historial_actualizar' paciente.id %}" class="btn btn-outline-primary mt-3">Actualizar Historial</a>
             {% else %}
                 <p class="text-muted">No hay historial registrado.</p>
             {% endif %}
@@ -42,7 +42,7 @@
     {% endif %}
 
     <div class="text-center mt-4">
-        <a href="{% url 'historial_registrar' %}" class="btn btn-success">Registrar nuevo historial</a>
+        <a href="{% url 'pacientes:historial_registrar' %}" class="btn btn-success">Registrar nuevo historial</a>
     </div>
 </div>
 {% endblock %}
