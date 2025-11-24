@@ -5,7 +5,6 @@ from pacientes.dao.paciente_dao import PacienteDAO
 
 
 class PacienteDAOTest(TestCase):
-    """Test suite for PacienteDAO"""
     
     def setUp(self):
         """Set up test data"""

@@ -5,7 +5,6 @@ from pacientes.services.historial_service import HistorialService
 
 
 class HistorialServiceTest(TestCase):
-    """Test suite for HistorialService"""
     
     def setUp(self):
         """Set up test data"""

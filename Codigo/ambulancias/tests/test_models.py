@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.utils import timezone
 from ambulancias.models import Ambulancia
 
-# Factory para generar datos de prueba
+# Generar datos de prueba
 @pytest.fixture
 def ambulancia_factory():
     def _create_ambulancia(placa, estado='Disponible', tipo='Tipo I', marca='Mercedes', fecha_adquisicion=timezone.now(), capacidad=4):

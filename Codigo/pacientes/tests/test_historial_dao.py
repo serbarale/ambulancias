@@ -5,7 +5,6 @@ from pacientes.dao.historial_dao import HistorialDAO
 
 
 class HistorialDAOTest(TestCase):
-    """Test suite for HistorialDAO"""
     
     def setUp(self):
         """Set up test data"""
